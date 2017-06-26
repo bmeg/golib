@@ -59,6 +59,10 @@ func (self *DataFrame64) RowNames() []string {
   return self.rowNames.names
 }
 
+func (self *DataFrame64) ColNames() []string {
+  return self.colNames.names
+}
+
 func (self *DataFrame64) RowNameView(name string) *mat64.Vector {
   i := self.rowNames.Index(name)
   if i == -1 {
@@ -67,6 +71,11 @@ func (self *DataFrame64) RowNameView(name string) *mat64.Vector {
   return self.Matrix.RowView(i)
 }
 
+func NewDataFrame64(rowNames []string, colNames []string, data []float64) *DataFrame64 {
+  rowIndex := NewIndex(rowNames)
+  colIndex := NewIndex(colNames)
+  return &DataFrame64{ Matrix:mat64.NewDense(rowIndex.Size(), colIndex.Size(), data), colNames:colIndex, rowNames:rowIndex }
+}
 
 func NewIndex(names []string) Index {
   return Index{names}
