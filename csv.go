@@ -13,6 +13,7 @@ type CSVReader struct {
 func (c *CSVReader) Read(in chan []byte) chan []string {
   t := make(chan string, 100)
   go func() {
+    defer close(t)
     for i := range in {
       t <- string(i)
     }
