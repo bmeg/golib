@@ -10,8 +10,17 @@ type CSVReader struct {
   Comment string
 }
 
+func (c *CSVReader) Read(in chan []byte) chan []string {
+  t := make(chan string, 100)
+  go func() {
+    for i := range in {
+      t <- string(i)
+    }
+  }()
+  return c.ReadString(t)
+}
 
-func (c *CSVReader) Read(in chan string) chan []string {
+func (c *CSVReader) ReadString(in chan string) chan []string {
   comma := c.Comma
   if comma == "" {
     comma = ","
