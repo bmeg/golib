@@ -35,9 +35,8 @@ func (c *CSVReader) ReadString(in chan string) chan []string {
       if comment != "" {
         line = strings.Split(line, comment)[0]
       }
-      o := strings.Split(line, comma)
-      if len(o) > 0 {
-        out <- o
+      if len(line) > 0 {
+        out <- strings.Split(line, comma)
       }
     }
   }()
